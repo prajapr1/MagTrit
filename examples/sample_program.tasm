@@ -1,0 +1,8 @@
+# Sample balanced-ternary assembly program
+LOAD +5
+ADD  -2
+SUB  +4
+BNEG end
+ADD  +10
+end:
+HALT 0
