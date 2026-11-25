@@ -2,13 +2,13 @@
 <div id="youtube-gallery" style="max-width: 800px; margin: 0 auto;"></div>
 
 <script>
-  // 1. Paste your full YouTube links here (supports youtu.be, ://youtube.com, etc.)
+  // 1. Paste your full YouTube links here
   const videoUrls = [
-    "https://youtu.be/sWKyrAXxzGA?si=EIWLWNRkmVytO8vW",
-    "https://www.://youtube.comdQw4w9WgXcQ"
+    "https://youtu.be",
+    "https://youtube.com"
   ];
 
-  // Helper function to extract the 11-character Video ID from any YouTube URL
+  // Helper function to extract just the 11-character Video ID
   function getYouTubeId(url) {
     const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([^&?\/]+)/);
     return match ? match[1] : null;
