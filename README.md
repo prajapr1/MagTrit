@@ -1,4 +1,5 @@
-[Overview](README.md) | [Reference](Reference.html)
+[Overview](README.md) | [Watch Reference Videos](https://github.io)
+
 
 # MagTrit — Open-Source Ternary Computation Stack
 
