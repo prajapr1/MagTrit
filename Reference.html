@@ -215,7 +215,6 @@
       "https://youtu.be/UWMEKex6nYA?si=H8JL0eJ6JxuYVI08"
     ];
     // ============================================================
-
     const app = document.getElementById("app");
     const topBar = document.getElementById("top-bar");
     const backBtn = document.getElementById("back-btn");
@@ -232,7 +231,8 @@
 
     async function fetchVideoTitle(id) {
       try {
-        const res = await fetch("https://youtube.com" + id + "&format=json");
+        const oembedUrl = "https://youtube.com" + "/oembed?url=https://youtube.com/watch?v=" + id + "&format=json";
+        const res = await fetch(oembedUrl);
         if (!res.ok) throw new Error("Title fetch failed");
         const data = await res.json();
         return data.title;
@@ -247,7 +247,7 @@
 
       app.className = "watch-layout";
       topBar.style.display = "block";
-      mainPlayer.src = "https://youtube.com" + video.id + "?autoplay=1";
+      mainPlayer.src = "https://youtube.com" + "/embed/" + video.id + "?autoplay=1";
       activeTitle.textContent = video.title;
 
       document.querySelectorAll(".video-card").forEach((card, i) => {
@@ -277,12 +277,14 @@
       videosData.forEach((video, index) => {
         const card = document.createElement("div");
         card.className = "video-card";
-        card.innerHTML = `
-          <div class="thumb-wrapper">
-            <img src="https://youtube.com{video.id}/hqdefault.jpg" alt="${video.title}" loading="lazy">
-          </div>
-          <div class="video-title">${video.title}</div>
-        `;
+        const thumbUrl = "https://youtube.com" + "/vi/" + video.id + "/hqdefault.jpg";
+
+        card.innerHTML =
+          '<div class="thumb-wrapper">' +
+            '<img src="' + thumbUrl + '" alt="' + video.title + '" loading="lazy">' +
+          '</div>' +
+          '<div class="video-title">' + video.title + '</div>';
+
         card.addEventListener("click", () => playVideo(index));
         videoList.appendChild(card);
       });
