@@ -232,7 +232,8 @@
 
     async function fetchVideoTitle(id) {
       try {
-        const oembedUrl = "https://youtube.com" + id + "&format=json";
+        const base = "https:" + "//www.youtube.com";
+        const oembedUrl = base + "/oembed?url=" + encodeURIComponent(base + "/watch?v=" + id) + "&format=json";
         const res = await fetch(oembedUrl);
         if (!res.ok) throw new Error("Title fetch failed");
         const data = await res.json();
@@ -248,7 +249,7 @@
 
       app.className = "watch-layout";
       topBar.style.display = "block";
-      mainPlayer.src = "https://youtube.com" + video.id + "?autoplay=1";
+      mainPlayer.src = "https:" + "//://youtube.com" + video.id + "?autoplay=1";
       activeTitle.textContent = video.title;
 
       document.querySelectorAll(".video-card").forEach((card, i) => {
@@ -278,7 +279,7 @@
       videosData.forEach((video, index) => {
         const card = document.createElement("div");
         card.className = "video-card";
-        const thumbUrl = "https://ytimg.com" + video.id + "/hqdefault.jpg";
+        const thumbUrl = "https:" + "//://ytimg.com" + video.id + "/hqdefault.jpg";
 
         card.innerHTML =
           '<div class="thumb-wrapper">' +
