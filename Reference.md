@@ -1,20 +1,22 @@
-<!-- Container where all stacked videos will appear -->
+---
+layout: default
+title: Videos
+---
+
+# My Video Reference
+
 <div id="youtube-gallery" style="max-width: 800px; margin: 0 auto;"></div>
 
 <script>
-  // 1. Paste your full YouTube links here
   const videoUrls = [
-    "https://youtu.be",
-    "https://youtube.com"
+    "https://youtu.be"
   ];
 
-  // Helper function to extract just the 11-character Video ID
   function getYouTubeId(url) {
     const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([^&?\/]+)/);
-    return match ? match[1] : null;
+    return match ? match : null;
   }
 
-  // 2. Automatically creates a stacked, responsive player for each URL
   const gallery = document.getElementById("youtube-gallery");
 
   videoUrls.forEach(url => {
