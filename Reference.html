@@ -12,13 +12,12 @@
     }
 
     body {
-      background-color: #0f0f0f; /* Dark YouTube-style background */
+      background-color: #0f0f0f;
       color: #f1f1f1;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       padding: 24px;
     }
 
-    /* Header / Back button when watching a video */
     #top-bar {
       max-width: 1400px;
       margin: 0 auto 20px auto;
@@ -41,14 +40,13 @@
       background-color: #3f3f3f;
     }
 
-    /* Main Container */
     #app {
       max-width: 1400px;
       margin: 0 auto;
     }
 
     /* GRID VIEW: 3 videos per row */
-    .grid-layout {
+    .grid-layout #video-list {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 24px;
@@ -62,7 +60,6 @@
       align-items: start;
     }
 
-    /* Active Large Video Player */
     #player-section {
       display: none;
     }
@@ -97,7 +94,6 @@
       color: #ffffff;
     }
 
-    /* Video Cards (Grid & Sidebar) */
     .watch-layout #video-list {
       display: flex;
       flex-direction: column;
@@ -114,7 +110,6 @@
       transform: scale(1.03);
     }
 
-    /* Sidebar card layout when a video is playing */
     .watch-layout .video-card {
       display: flex;
       gap: 12px;
@@ -166,9 +161,8 @@
       font-size: 14px;
     }
 
-    /* Responsive adjustments for tablets & phones */
     @media (max-width: 1024px) {
-      .grid-layout {
+      .grid-layout #video-list {
         grid-template-columns: repeat(2, 1fr);
       }
       .watch-layout {
@@ -181,7 +175,7 @@
     }
 
     @media (max-width: 640px) {
-      .grid-layout {
+      .grid-layout #video-list {
         grid-template-columns: 1fr;
       }
     }
@@ -194,7 +188,6 @@
   </div>
 
   <div id="app" class="grid-layout">
-    <!-- Left/Main Section: Plays the clicked video -->
     <div id="player-section">
       <div class="video-frame-wrapper">
         <iframe 
@@ -208,7 +201,6 @@
       <h2 id="active-title"></h2>
     </div>
 
-    <!-- Grid / Right Sidebar Section: Lists all videos -->
     <div id="video-list"></div>
   </div>
 
@@ -233,16 +225,14 @@
 
     let videosData = [];
 
-    // Extract Video ID from any YouTube link format
     function getYouTubeId(url) {
       const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([^&?\/]+)/);
       return match ? match[1] : null;
     }
 
-    // Automatically fetch the real YouTube Video Title
     async function fetchVideoTitle(id) {
       try {
-        const res = await fetch(`https://youtube.com{id}&format=json`);
+        const res = await fetch("https://youtube.com" + id + "&format=json");
         if (!res.ok) throw new Error("Title fetch failed");
         const data = await res.json();
         return data.title;
@@ -251,17 +241,15 @@
       }
     }
 
-    // Switch to Watch Mode (1 large video on left, others on right)
     function playVideo(index) {
       const video = videosData[index];
       if (!video) return;
 
       app.className = "watch-layout";
       topBar.style.display = "block";
-      mainPlayer.src = `https://youtube.com{video.id}?autoplay=1`;
+      mainPlayer.src = "https://youtube.com" + video.id + "?autoplay=1";
       activeTitle.textContent = video.title;
 
-      // Highlight active video in sidebar
       document.querySelectorAll(".video-card").forEach((card, i) => {
         card.classList.toggle("active-card", i === index);
       });
@@ -269,15 +257,13 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    // Return to 3-column Grid View
     backBtn.addEventListener("click", () => {
       app.className = "grid-layout";
       topBar.style.display = "none";
-      mainPlayer.src = ""; // Stop video playback
+      mainPlayer.src = "";
       document.querySelectorAll(".video-card").forEach(card => card.classList.remove("active-card"));
     });
 
-    // Initialize Gallery
     async function init() {
       const ids = videoLinks.map(getYouTubeId).filter(Boolean);
 
