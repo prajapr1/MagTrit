@@ -1,3 +1,5 @@
+[Overview](README.md) | [Reference](Reference.md)
+
 # MagTrit — Open-Source Ternary Computation Stack
 
 **MagTrit** is an **open-source** project building a full-stack **balanced ternary (`-1`, `0`, `+1`)** computing system from scratch—spanning **gates, ALU, ISA, firmware/VM, assembler, intermediate representation (IR), programming language, standard library, test suites, and hardware**.
