@@ -1,4 +1,4 @@
-[Overview](README.md) | [Reference](Reference.md)
+[Overview](README.md) | [Reference](Reference.html)
 
 # MagTrit — Open-Source Ternary Computation Stack
 
