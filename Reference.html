@@ -194,6 +194,7 @@
           id="main-player" 
           src="" 
           title="YouTube video player" 
+          referrerpolicy="strict-origin-when-cross-origin"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
           allowfullscreen>
         </iframe>
@@ -232,8 +233,8 @@
 
     async function fetchVideoTitle(id) {
       try {
-        const base = "https:" + "//www.youtube.com";
-        const oembedUrl = base + "/oembed?url=" + encodeURIComponent(base + "/watch?v=" + id) + "&format=json";
+        const videoUrl = `https://www.youtube.com/watch?v=${id}`;
+        const oembedUrl = `https://www.youtube.com/oembed?url=${encodeURIComponent(videoUrl)}&format=json`;
         const res = await fetch(oembedUrl);
         if (!res.ok) throw new Error("Title fetch failed");
         const data = await res.json();
@@ -249,7 +250,7 @@
 
       app.className = "watch-layout";
       topBar.style.display = "block";
-      mainPlayer.src = "https:" + "//://youtube.com" + video.id + "?autoplay=1";
+      mainPlayer.src = `https://www.youtube.com/embed/${video.id}?autoplay=1&rel=0`;
       activeTitle.textContent = video.title;
 
       document.querySelectorAll(".video-card").forEach((card, i) => {
@@ -279,13 +280,23 @@
       videosData.forEach((video, index) => {
         const card = document.createElement("div");
         card.className = "video-card";
-        const thumbUrl = "https:" + "//://ytimg.com" + video.id + "/hqdefault.jpg";
+        const thumbUrl = `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`;
 
-        card.innerHTML =
-          '<div class="thumb-wrapper">' +
-            '<img src="' + thumbUrl + '" alt="' + video.title + '" loading="lazy">' +
-          '</div>' +
-          '<div class="video-title">' + video.title + '</div>';
+        const thumbWrapper = document.createElement("div");
+        thumbWrapper.className = "thumb-wrapper";
+
+        const img = document.createElement("img");
+        img.src = thumbUrl;
+        img.alt = video.title;
+        img.loading = "lazy";
+        thumbWrapper.appendChild(img);
+
+        const titleDiv = document.createElement("div");
+        titleDiv.className = "video-title";
+        titleDiv.textContent = video.title;
+
+        card.appendChild(thumbWrapper);
+        card.appendChild(titleDiv);
 
         card.addEventListener("click", () => playVideo(index));
         videoList.appendChild(card);
@@ -294,7 +305,6 @@
 
     init();
   </script>
-
 
 </body>
 </html>
